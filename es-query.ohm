@@ -4,13 +4,7 @@ ESQueryGrammar {
     reservedWord = "AND" | "OR" | "NOT" | "TO"
     boolOperator = "AND" | "OR"
     orSpace = space+
-
-    // UTILS
-    spaced<x> = space+ x space+
-    parented<x> = "(" space* x space* ")"
-
-    spacedBool = spaced<boolOperator>
-    genericBoolOp = spacedBool | orSpace
+    orLine = "|"
 
     // STRING LITERALS
     sourceCharacter = any
@@ -25,27 +19,36 @@ ESQueryGrammar {
     escapedESStringCharacter = "\\" singleESEscapeCharacter
     regexCharacter = "*" | "?"
 
-    unquotedString = ~reservedWord (escapedESStringCharacter | regexCharacter | alnum | "_" | ".")+
+    unquotedString = ~reservedWord (escapedESStringCharacter | regexCharacter | alnum | "_" | "." | "-" | "’")+
     quotedString = "\"" doubleStringCharacter* "\""
 
     detachedCond = quotedString | unquotedString
+
+    // UTILS
+    spaced<x> = space+ x space+
+    parented<x> = "(" space* x space* ")"
+
+    spacedBool = spaced<boolOperator>
+    genericBoolOp = spacedBool | orSpace | orLine
 
     // FIELD QUERY
     fieldName = ~reservedWord (alnum | "." | "_")+ &":"
     fieldCond = fieldName ":" subquery
 
     // RANGE QUERY
-    rangeValue = ~space ((alnum | "/" | "-" | ":")+ | "*")
+    rangeValue = ~space ((alnum | "/" | "-" | ":" | "+")+ | "*")
     rangeCond = "[" space* rangeValue spaced<"TO"> rangeValue space* "]"
 
     // CONDITIONS
     genericCond = fieldCond | rangeCond | detachedCond
     cond = parented<genericCond> | genericCond
-    simpleNegation = "-" cond
-    longNegation = "NOT" space+ cond
-    negatedCond = longNegation | simpleNegation
 
-    queryElement = negatedCond | cond
+    simpleNegation = "-" subquery
+    simpleMust = "+" subquery
+    longNegation = "NOT" space+ subquery
+    markedCond = longNegation | simpleNegation | simpleMust
+
+    queryElement = markedCond | cond
 	subquery = parented<query> | queryElement
     query = nonemptyListOf<subquery, genericBoolOp> | parented<query>
 }
