@@ -1,0 +1,52 @@
+ESQueryGrammar {
+    ESQuery = query
+
+    reservedWord = "AND" | "OR" | "NOT" | "TO"
+    boolOperator = "AND" | "OR"
+    orSpace = space+
+
+    // UTILS
+    spaced<x> = space+ x space+
+    parented<x> = "(" space* x space* ")"
+
+    spacedBool = spaced<boolOperator>
+    genericBoolOp = spacedBool | orSpace
+
+    // STRING LITERALS
+    sourceCharacter = any
+    nonEscapeCharacter = ~(singleEscapeCharacter) sourceCharacter
+    characterEscapeSequence = singleEscapeCharacter
+                            | nonEscapeCharacter
+    singleEscapeCharacter = "\"" | "\\"
+    doubleStringCharacter = ~("\"" | "\\") sourceCharacter -- nonEscaped
+                          | "\\" characterEscapeSequence -- Escaped
+    singleESEscapeCharacter = " " | "+" | "-" | "=" | "!" | "(" | ")" | "{" | "}"
+                            | "[" | "]" | "^" | "\"" | "~" | "*" | "?" | ":" | "\\" | "/"
+    escapedESStringCharacter = "\\" singleESEscapeCharacter
+    regexCharacter = "*" | "?"
+
+    unquotedString = ~reservedWord (escapedESStringCharacter | regexCharacter | alnum | "_" | ".")+
+    quotedString = "\"" doubleStringCharacter* "\""
+
+    detachedCond = quotedString | unquotedString
+
+    // FIELD QUERY
+    fieldName = ~reservedWord (alnum | "." | "_")+ &":"
+    fieldCond = fieldName ":" subquery
+
+    // RANGE QUERY
+    rangeValue = ~space ((alnum | "/" | "-" | ":")+ | "*")
+    rangeCond = "[" space* rangeValue spaced<"TO"> rangeValue space* "]"
+
+    // CONDITIONS
+    genericCond = fieldCond | rangeCond | detachedCond
+    cond = parented<genericCond> | genericCond
+    simpleNegation = "-" cond
+    longNegation = "NOT" space+ cond
+    negatedCond = longNegation | simpleNegation
+
+    queryElement = negatedCond | cond
+	subquery = parented<query> | queryElement
+    query = nonemptyListOf<subquery, genericBoolOp> | parented<query>
+}
+
