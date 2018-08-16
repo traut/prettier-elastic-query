@@ -19,55 +19,58 @@
 
 <script type="text/ohm-js">
     ESQueryGrammar {
-        ESQuery = query
+    ESQuery = query
 
-        reservedWord = "AND" | "OR" | "NOT" | "TO"
-        boolOperator = "AND" | "OR"
-        orSpace = space+
+    reservedWord = "AND" | "OR" | "NOT" | "TO"
+    boolOperator = "AND" | "OR"
+    orSpace = space+
+    orLine = "|"
 
-        // UTILS
-        spaced<x> = space+ x space+
-        parented<x> = "(" space* x space* ")"
+    // STRING LITERALS
+    sourceCharacter = any
+    nonEscapeCharacter = ~(singleEscapeCharacter) sourceCharacter
+    characterEscapeSequence = singleEscapeCharacter
+                            | nonEscapeCharacter
+    singleEscapeCharacter = "\"" | "\\"
+    doubleStringCharacter = ~("\"" | "\\") sourceCharacter -- nonEscaped
+                          | "\\" characterEscapeSequence -- Escaped
+    singleESEscapeCharacter = " " | "+" | "-" | "=" | "!" | "(" | ")" | "{" | "}"
+                            | "[" | "]" | "^" | "\"" | "~" | "*" | "?" | ":" | "\\" | "/"
+    escapedESStringCharacter = "\\" singleESEscapeCharacter
+    regexCharacter = "*" | "?"
 
-        spacedBool = spaced<boolOperator>
-        genericBoolOp = spacedBool | orSpace
+    unquotedString = ~reservedWord (escapedESStringCharacter | regexCharacter | alnum | "_" | "." | "-" | "’")+
+    quotedString = "\"" doubleStringCharacter* "\""
 
-        // STRING LITERALS
-        sourceCharacter = any
-        nonEscapeCharacter = ~(singleEscapeCharacter) sourceCharacter
-        characterEscapeSequence = singleEscapeCharacter
-                                | nonEscapeCharacter
-        singleEscapeCharacter = "\"" | "\\"
-        doubleStringCharacter = ~("\"" | "\\") sourceCharacter -- nonEscaped
-                              | "\\" characterEscapeSequence -- Escaped
-        singleESEscapeCharacter = " " | "+" | "-" | "=" | "!" | "(" | ")" | "{" | "}"
-                                | "[" | "]" | "^" | "\"" | "~" | "*" | "?" | ":" | "\\" | "/"
-        escapedESStringCharacter = "\\" singleESEscapeCharacter
-        regexCharacter = "*" | "?"
+    detachedCond = quotedString | unquotedString
 
-        unquotedString = ~reservedWord (escapedESStringCharacter | regexCharacter | alnum | "_" | ".")+
-        quotedString = "\"" doubleStringCharacter* "\""
+    // UTILS
+    spaced<x> = space+ x space+
+    parented<x> = "(" space* x space* ")"
 
-        detachedCond = quotedString | unquotedString
+    spacedBool = spaced<boolOperator>
+    genericBoolOp = spacedBool | orSpace | orLine
 
-        // FIELD QUERY
-        fieldName = ~reservedWord (alnum | "." | "_")+ &":"
-        fieldCond = fieldName ":" subquery
+    // FIELD QUERY
+    fieldName = ~reservedWord (alnum | "." | "_")+ &":"
+    fieldCond = fieldName ":" subquery
 
-        // RANGE QUERY
-        rangeValue = ~space ((alnum | "/" | "-" | ":")+ | "*")
-        rangeCond = "[" space* rangeValue spaced<"TO"> rangeValue space* "]"
+    // RANGE QUERY
+    rangeValue = ~space ((alnum | "/" | "-" | ":" | "+")+ | "*")
+    rangeCond = "[" space* rangeValue spaced<"TO"> rangeValue space* "]"
 
-        // CONDITIONS
-        genericCond = fieldCond | rangeCond | detachedCond
-        cond = parented<genericCond> | genericCond
-        simpleNegation = "-" cond
-        longNegation = "NOT" space+ cond
-        negatedCond = longNegation | simpleNegation
+    // CONDITIONS
+    genericCond = fieldCond | rangeCond | detachedCond
+    cond = parented<genericCond> | genericCond
 
-        queryElement = negatedCond | cond
-        subquery = parented<query> | queryElement
-        query = nonemptyListOf<subquery, genericBoolOp> | parented<query>
+    simpleNegation = "-" subquery
+    simpleMust = "+" subquery
+    longNegation = "NOT" space+ subquery
+    markedCond = longNegation | simpleNegation | simpleMust
+
+    queryElement = markedCond | cond
+	subquery = parented<query> | queryElement
+    query = nonemptyListOf<subquery, genericBoolOp> | parented<query>
     }
 </script>
 <script>
