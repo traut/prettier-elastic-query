@@ -1,6 +1,5 @@
 // KNOWN ISSUES:
 // - no support for wildcards in field names
-// - no support for regular expressions
 // - no support for fuzzines or proximity searches
 // - primitive support for ranges
 // - no support for boosting
@@ -25,9 +24,10 @@ ESQueryGrammar {
     singleESEscapeCharacter = " " | "+" | "-" | "=" | "!" | "(" | ")" | "{" | "}"
                             | "[" | "]" | "^" | "\"" | "~" | "*" | "?" | ":" | "\\" | "/"
     escapedESStringCharacter = "\\" singleESEscapeCharacter
-    regexCharacter = "*" | "?"
+	wildcardCharacter = "*" | "?"
+    regexCharacter = "*" | "?" | "[" | "]" | "(" | ")"
 
-    unquotedString = ~reservedWord (escapedESStringCharacter | regexCharacter | alnum | "_" | "." | "-" | "’")+
+    unquotedString = ~reservedWord (escapedESStringCharacter | wildcardCharacter | alnum | "_" | "." | "-" | "’")+
     quotedString = "\"" doubleStringCharacter* "\""
 
     detachedCond = quotedString | unquotedString
@@ -47,8 +47,11 @@ ESQueryGrammar {
     rangeValue = ~space ((alnum | "/" | "-" | ":" | "+")+ | "*")
     rangeCond = "[" space* rangeValue spaced<"TO"> rangeValue space* "]"
 
+    // REGEX QUERY
+    regexCond = "/" (alnum | regexCharacter)+ "/"
+
     // CONDITIONS
-    genericCond = fieldCond | rangeCond | detachedCond
+    genericCond = fieldCond | rangeCond | regexCond | detachedCond
     cond = parented<genericCond> | genericCond
 
     simpleNegation = "-" subquery

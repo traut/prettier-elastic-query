@@ -18,7 +18,7 @@
     </pre>
 
 <script type="text/ohm-js">
-    ESQueryGrammar {
+ESQueryGrammar {
     ESQuery = query
 
     reservedWord = "AND" | "OR" | "NOT" | "TO"
@@ -71,7 +71,7 @@
     queryElement = markedCond | cond
 	subquery = parented<query> | queryElement
     query = nonemptyListOf<subquery, genericBoolOp> | parented<query>
-    }
+}
 </script>
 <script>
     window.prettyPrintElementText("query-code", 90)

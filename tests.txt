@@ -12,3 +12,4 @@ field_name:[   2018-01-20T20:00 TO *  ]
 balh,whe
 data.type:ttp AND _exists_:data.behavior.attack_patterns.capec_id AND -(data.behavior.attack_patterns.capec_id:("MOB" "PRE")) AND data.behavior.attack_patterns.capec_id:[10 TO 20]
 +some +other -hey
+name:/joh?n(ath[oa]n)/ AND some:other

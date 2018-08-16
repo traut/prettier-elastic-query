@@ -16,6 +16,7 @@ var actionDict = {
     'fieldCond': flattenFieldCondition,
     'orSpace': flattenOrSpace,
     'rangeCond': flattenRangeCondition,
+    'regexCond': flattenRegexCondition,
     '_terminal': terminalAction
 }
 
@@ -83,6 +84,13 @@ function flattenRangeCondition(_, _, fromValue, _, toValue, _, _) {
     }
 }
 
+function flattenRegexCondition(_, expression, _) {
+    return {
+        'type': 'regexCondition',
+        'expression': expression.sourceString,
+    }
+}
+
 function flattenLongNegation(negation, spaces, condition) {
     return {
         'type': 'marking',
@@ -144,7 +152,8 @@ var formatDict = {
     'boolOperator': formatBoolOperator,
     'fieldCondition': formatFieldCondition,
     'marking': formatMarking,
-    'rangeCondition': formatRangeCondition
+    'rangeCondition': formatRangeCondition,
+    'regexCondition': formatRegexCondition,
 }
 
 function formatParented(node) {
@@ -169,6 +178,11 @@ function formatFieldCondition(node) {
     var result = prettifyNode(node['value']);
     //return wrap([node['name'], ':', result])
     return [node['name'], ':', result]
+}
+
+
+function formatRegexCondition(node) {
+    return PP.enclose(["/", "/"], node['expression'])
 }
 
 function formatMarking(node) {
