@@ -25,9 +25,9 @@ if (process.argv.length == 4) {
     var failures_count = 0;
     var runs_count = 0;
     lines.toString().trim().split("\n").map(function(query) {
-        if (query.indexOf("”") > -1) {
-            return
-        }
+        //if (query.indexOf("”") > -1) {
+        //    return
+        //}
         runs_count += 1;
         try {
             var output = pretty.prettyPrint(query, width, grammar)
