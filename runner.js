@@ -1,5 +1,5 @@
 var fs = require('fs');
-var pretty = require('./prettier-es')
+var pretty = require('./prettier-es');
 
 var ONLY_ERRORS = false;
 
@@ -30,12 +30,13 @@ if (process.argv.length == 4) {
         //}
         runs_count += 1;
         try {
-            var output = pretty.prettyPrint(query, width, grammar)
+            var output = pretty.prettyPrint(query, width, grammar);
         } catch (err) {
             failures_count += 1;
             console.info("----------------------");
             console.info("Input:", query)
-            console.info("Failure:", err)
+            console.info("Failure:")
+            console.info(err.message)
             return;
         }
         if (!ONLY_ERRORS) {

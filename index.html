@@ -8,12 +8,20 @@
     <script src="prettier-es-bundle.js" type="text/javascript"></script>
 </head>
 <body>
-    <code>
+<code id="example1-raw">
 (((tags:"Theme - Generic Threats") AND (tags:("Source - Drainage Pipes" OR "Source Type - Open Source" OR "Source Type - OEM" OR "Source - Recorded Future" OR "Source - PaloAlto" OR "Source - Ghosts" OR "Source - Gossip" OR "Source - MenInHats")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - ToodleLoops") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Theme - Hacktivism") AND (tags:("Source - Drainage Pipes" OR "Source Type - Open Source" OR "Source Type - OEM" OR "Source - MenInHats" OR "Source - Flashpoint" OR "Source - Ghosts")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - ToodleLoops") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Theme - Critical Infrastructure") AND (tags:("Source - Drainage Pipes" OR "Source Type - Open Source" OR "Source Type - OEM" OR "Source - Gossip" OR "Source - Ghosts")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - ToodleLoops") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Theme - Financial Crime") AND (tags:("Source - Drainage Pipes" OR "Source - MenInHats" OR "Source - Gossip" OR "Source Type - Open Source" OR "Source Type - OEM" OR "Source - Ghosts")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - ToodleLoops") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Theme - APT") AND (tags:("Source - Drainage Pipes" OR "Source Type - Open Source" OR "Source Type - OEM" OR "Source - MenInHats" OR "Source - Gossip" OR "Source - Ghosts")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - ToodleLoops") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Theme - Uncategorized") AND (tags:("Source - Drainage Pipes" OR "Source Type - Open Source" OR "Source Type - OEM" OR "Source - Recorded Future" OR "Source - PaloAlto" OR "Source - Ghosts" OR "Source - Gossip" OR "Source - MenInHats")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - ToodleLoops") OR meta.tlp_color:(WHITE OR GREEN)))) AND (data.type:report AND tags:"BigBoss - Reviewed" AND created_at:[2018-06-06 TO *]) AND (-some_number:68 OR some_value:/joh?n(ath[oa]n)/)
-    </code>
-    <pre>
-<code id="query-code">
+</code>
+<pre>
+<code id="example1-formatted">
 (((tags:"Theme - Generic Threats") AND (tags:("Source - Drainage Pipes" OR "Source Type - Open Source" OR "Source Type - OEM" OR "Source - Recorded Future" OR "Source - PaloAlto" OR "Source - Ghosts" OR "Source - Gossip" OR "Source - MenInHats")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - ToodleLoops") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Theme - Hacktivism") AND (tags:("Source - Drainage Pipes" OR "Source Type - Open Source" OR "Source Type - OEM" OR "Source - MenInHats" OR "Source - Flashpoint" OR "Source - Ghosts")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - ToodleLoops") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Theme - Critical Infrastructure") AND (tags:("Source - Drainage Pipes" OR "Source Type - Open Source" OR "Source Type - OEM" OR "Source - Gossip" OR "Source - Ghosts")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - ToodleLoops") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Theme - Financial Crime") AND (tags:("Source - Drainage Pipes" OR "Source - MenInHats" OR "Source - Gossip" OR "Source Type - Open Source" OR "Source Type - OEM" OR "Source - Ghosts")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - ToodleLoops") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Theme - APT") AND (tags:("Source - Drainage Pipes" OR "Source Type - Open Source" OR "Source Type - OEM" OR "Source - MenInHats" OR "Source - Gossip" OR "Source - Ghosts")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - ToodleLoops") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Theme - Uncategorized") AND (tags:("Source - Drainage Pipes" OR "Source Type - Open Source" OR "Source Type - OEM" OR "Source - Recorded Future" OR "Source - PaloAlto" OR "Source - Ghosts" OR "Source - Gossip" OR "Source - MenInHats")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - ToodleLoops") OR meta.tlp_color:(WHITE OR GREEN)))) AND (data.type:report AND tags:"BigBoss - Reviewed" AND created_at:[2018-06-06 TO *]) AND (-some_number:68 OR some_value:/joh?n(ath[oa]n)/)
+</code>
+<hr/>
+<code id="example2-raw">
+meta.estimated_start_time:[now-1w/d+9h TO now/d+9h] AND tags:“Funky Tag” AND data.type:cookies-receipt
+</code>
+<pre>
+<code id="example2-formatted">
+meta.estimated_start_time:[now-1w/d+9h TO now/d+9h] AND tags:“Funky Tag” AND data.type:cookies-receipt
 </code>
     </pre>
 
@@ -78,7 +86,14 @@ ESQueryGrammar {
 }
 </script>
 <script>
-    window.prettyPrintElementText("query-code", 90)
+    window.prettyPrintElementText("example1-formatted", 90)
+    try {
+        window.prettyPrintElementText("example2-formatted", 90)
+    } catch (err) {
+        window.augmentElementWithErrorInfo("example2-formatted", err);
+        var el = document.getElementById("example2-formatted");
+        el.innerHTML += '<span style="color:red">' + err.shortMessage + '</span>';
+    }
 </script>
 </body>
 </html>

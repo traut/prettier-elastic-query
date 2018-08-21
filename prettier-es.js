@@ -222,16 +222,36 @@ function prettifyNode(node) {
     }
 }
 
+function augmentWithErrorInfo(query, error) {
+    var index = error.rightmostFailurePosition + 1;
+    var part1 = query.slice(0, index);
+    var part2 = query.slice(index + 1);
+    return (
+        part1
+        + '<u style="text-decoration-color: red;-webkit-text-decoration-color: red;">'
+        + query[index]
+        + '</u>'
+        + part2);
+}
 
 function prettyPrint(query, maxWidth, grammar) {
-    var semantics = grammar.createSemantics().addOperation('flatten', actionDict)
-
     var match = grammar.match(query);
+
+    if (match.failed()) {
+        var error = new Error("Can not parse query")
+        error.message = match.message;
+        error.shortMessage = match.shortMessage;
+        error.rightmostFailurePosition = match.getRightmostFailurePosition();
+        error.expectedText = match.getExpectedText();
+        error.match = match;
+        throw error;
+    }
+
+    var semantics = grammar.createSemantics().addOperation('flatten', actionDict)
     var tree = semantics(match);
     var result = tree.flatten();
 
     //console.info(JSON.stringify(result, null, 4))
-
     var prettiness = PP.render(maxWidth, PP.group(prettifyNode(result)));
     return prettiness;
 }
@@ -256,7 +276,6 @@ if (typeof Prism !== 'undefined') {
 
 function prettyPrintElementText(elementId, width) {
     width = width || 150;
-    elementId = elementId || 'query-code'
 
     var grammar = ohm.grammarFromScriptElement();
     var codeElement = document.getElementById(elementId);
@@ -268,6 +287,14 @@ function prettyPrintElementText(elementId, width) {
         prettyQuery, Prism.languages.es, "es")
 }
 
+
+function augmentElementWithErrorInfo(elementId, error) {
+    var codeElement = document.getElementById(elementId);
+    var query = codeElement.innerText;
+    codeElement.innerHTML = augmentWithErrorInfo(query, error);
+}
+
+
 function loadGrammar(grammarString) {
     return ohm.grammar(grammarString);
 }
@@ -275,10 +302,12 @@ function loadGrammar(grammarString) {
 
 if (typeof window !== 'undefined') {
     window.prettyPrintElementText = prettyPrintElementText;
+    window.augmentElementWithErrorInfo = augmentElementWithErrorInfo;
 }
 
 module.exports = {
     prettyPrintElementText: prettyPrintElementText,
     prettyPrint: prettyPrint,
+    augmentElementWithErrorInfo: augmentElementWithErrorInfo,
     loadGrammar: loadGrammar
 }
