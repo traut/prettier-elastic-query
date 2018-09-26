@@ -3,6 +3,7 @@
 // - no support for fuzzines or proximity searches
 // - primitive support for ranges
 // - no support for boosting
+//
 // ES docs -- https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html
 
 ESQueryGrammar {

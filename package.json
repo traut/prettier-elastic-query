@@ -1,0 +1,44 @@
+{
+  "name": "prettier-es",
+  "version": "0.0.1",
+  "description": "Elasticsearch query formatter and highlighter",
+  "main": "src/main.js",
+  "dependencies": {
+    "ohm-js": "^0.14.0",
+    "prettier-printer": "^1.1.2",
+    "prismjs": "^1.15.0",
+    "underscore": "^1.9.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.0",
+    "eslint": "^5.6.0",
+    "eslint-config-google": "^0.10.0",
+    "parcel-bundler": "^1.10.0"
+  },
+  "bin": {
+    "prettier-es": "bin/cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -f dist/es-prettier.js dist/es-prettier.min.js dist/grammar.js",
+    "lint": "node_modules/eslint/bin/eslint.js src",
+    "prepare": "npm run lint",
+    "build": "bash bin/build.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/traut/prettier-es.git"
+  },
+  "keywords": [
+    "elasticsearch",
+    "formatter",
+    "highlighter",
+    "syntax"
+  ],
+  "author": "Sergey Polzunov <sergey@polzunov.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/traut/prettier-es/issues"
+  },
+  "homepage": "https://github.com/traut/prettier-es#readme"
+}
