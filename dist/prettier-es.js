@@ -16292,13 +16292,12 @@ prism.languages.esquery = {
   'variable': /@[\w.$]+|@(["'`])(?:\\[\s\S]|(?!\1)[^\\])+\1/,
   'boolean': /\b(?:true|false|null)\b/i,
   'number': /\b0x[\da-f]+\b|\b\d+\.?\d*|\B\.\d+\b/i,
-  'operator': /[-+\/=%^~]|&&?|\|\|?|!=?|<(?:=>?|<|>)?|>[>=]?|\b(?:AND|OR|TO|NOT)\b/i,
+  'operator': /[-+\/=%^~]|&&?|\|\|?|!=?|<(?:=>?|<|>)?|>[>=]?|\b(?:AND|OR|TO|NOT|_exists_)\b/i,
   'punctuation': /[;[\]()`,.]/
 };
 
 function extendHighlighter(keywords) {
-  // 'keyword': /\b(?:WHITE|GREEN|AMBER|RED|_exists_|high|medium|low)\b/i,
-  var keywordsExpr = '\b(?:' + keywords.join('|') + ')\b';
+  var keywordsExpr = '\\b(?:' + keywords.join('|') + ')\\b';
   prism.languages.esquery['keyword'] = new RegExp(keywordsExpr, 'i');
 }
 
