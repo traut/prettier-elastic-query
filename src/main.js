@@ -27,16 +27,15 @@ function terminalAction() {
 }
 
 function flattenNonemptyListOf(first, separators, rest) {
-  console.info("what");
   let topNodes = [first].concat([separators, rest]);
   let childrenWithOffsets = [];
   topNodes.map(function(node) {
-    for (idx in node.children) {
+    _.map(node.children, function (child, idx) {
       childrenWithOffsets.push({
         'offset': node._node.childOffsets[idx],
-        'child': node.children[idx],
+        'child': child,
       });
-    }
+    });
   });
   let sortedChildren = _.sortBy(childrenWithOffsets, 'offset');
   return sortedChildren.map(function(wrap) {
@@ -44,7 +43,7 @@ function flattenNonemptyListOf(first, separators, rest) {
   });
 }
 
-function flattenSpaced(_, innerNode) {
+function flattenSpaced(_, innerNode, __) {
   return innerNode.flatten();
 }
 
@@ -55,7 +54,7 @@ function flattenOrSpace(children) {
   };
 }
 
-function flattenParented(_, __, innerNode) {
+function flattenParented(_, __, innerNode, ___, ____) {
   return {
     'type': 'parented',
     'value': innerNode.flatten(),
@@ -78,7 +77,7 @@ function flattenFieldCondition(nameNode, _, valueNode) {
   };
 }
 
-function flattenRangeCondition(_, __, fromValue, ___, toValue) {
+function flattenRangeCondition(_, __, fromValue, ___, toValue, ____, _____) {
   return {
     'type': 'rangeCondition',
     'from': fromValue.sourceString,
@@ -86,7 +85,7 @@ function flattenRangeCondition(_, __, fromValue, ___, toValue) {
   };
 }
 
-function flattenRegexCondition(_, expression) {
+function flattenRegexCondition(_, expression, __) {
   return {
     'type': 'regexCondition',
     'expression': expression.sourceString,
@@ -224,7 +223,7 @@ function formatFlatTree(tree, maxWidth, style) {
   }
 }
 
-function formatQuery(query, maxWidth) {
+function formatQuery(query, maxWidth, style) {
   let match = queryGrammar.match(query);
   if (match.failed()) {
     let error = new Error('Can not parse query');
@@ -238,7 +237,7 @@ function formatQuery(query, maxWidth) {
   let semantics = queryGrammar.createSemantics().addOperation('flatten', syntaxActionsMap);
   let tree = semantics(match);
   let flatTree = tree.flatten();
-  return formatTree(flatTree);
+  return formatFlatTree(flatTree, maxWidth, style);
 }
 
 prism.languages.esquery = {
@@ -267,14 +266,14 @@ function highlightQuery(query) {
 function prettify(query, maxWidth) {
   maxWidth = maxWidth || 100;
   let formatted = formatQuery(query, maxWidth);
-  let highlighted = highlightQUery(formatted);
+  let highlighted = highlightQuery(formatted);
   return highlighted;
 }
 
 function formatErrorMessage(error, cssClass) {
   let styling = (
         cssClass ? ('class="' + cssClass + '"') : 'style="color:red"');
-  return '<span ' + styling + '>' + err.shortMessage + '</span>';
+  return '<p ' + styling + '>' + error.shortMessage + '</p>';
 }
 
 function prettifyElement(elementId, showErrors, maxWidth, errorCss) {
@@ -282,12 +281,12 @@ function prettifyElement(elementId, showErrors, maxWidth, errorCss) {
   let query = element.innerText.trim();
   let result;
   try {
-    result = formatHighlight(query, maxWidth);
+    result = prettify(query, maxWidth);
   } catch (error) {
     if (showErrors) {
       element.innerHTML = (
         markErrorInQuery(query, error, errorCss)
-                + formatErrorMessage(err, errorCss));
+        + formatErrorMessage(error, errorCss));
       return element;
     }
     return false;
@@ -298,14 +297,14 @@ function prettifyElement(elementId, showErrors, maxWidth, errorCss) {
 
 
 function markErrorInQuery(query, error, cssClass) {
-  let index = error.rightmostFailurePosition + 1;
+  let index = error.rightmostFailurePosition;
   let part1 = query.slice(0, index);
   let part2 = query.slice(index + 1);
   let styling;
   if (cssClass) {
     styling = 'class="' + cssClass + '"';
   } else {
-    styling = 'style="text-decoration-color: red;-webkit-text-decoration-color: red;"';
+    styling = 'style="text-decoration-color: red;-webkit-text-decoration-color: red;color: red;"';
   }
   return part1 + '<u ' + styling + '>' + query[index] + '</u>' + part2;
 }
@@ -320,3 +319,7 @@ var PrettierEs = {
 };
 
 export default PrettierEs;
+
+if (typeof window !== 'undefined') {
+    window.PrettierEs = PrettierEs;
+}
