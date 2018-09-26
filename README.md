@@ -36,15 +36,15 @@ See [demo page source](https://github.com/traut/prettier-es/blob/master/docs/ind
 API reference
 -------------
 
-_`format(query, maxWidth, style)`_ - format ES query, fitting it in `maxWidth` characters per line and following provided style. Possible style options are `lisp` and `simple`, with `lisp` being used if no style argument provided;
+`format(query, maxWidth, style)` - format ES query, fitting it in `maxWidth` characters per line and following provided style. Possible style options are `lisp` and `simple`, with `lisp` being used if no style argument provided;
 
-_`highlight(query)`_ - highlight query with [Prism](https://prismjs.com/). prettier-es build provides default Prism css theme. You can use any Prism theme, just include theme's css style file in your html file;
+`highlight(query)` - highlight query with [Prism](https://prismjs.com/). prettier-es build provides default Prism css theme. You can use any Prism theme, just include theme's css style file in your html file;
 
-_`prettify(query, maxWidth, style)`_ - format and highlight ES query. Calls `format()` and `highlight()` functions inside;
+`prettify(query, maxWidth, style)` - format and highlight ES query. Calls `format()` and `highlight()` functions inside;
 
 
-_`prettifyElement(elementId, showErrors, maxWidth, errorCss)`_ - formats and highlights ES query inplace inside HTML element. `showErrors` - boolean indicating if error information should be rendered, false by default. `errorCss` class to be used in error message formatting;
+`prettifyElement(elementId, showErrors, maxWidth, errorCss)` - formats and highlights ES query inplace inside HTML element. `showErrors` - boolean indicating if error information should be rendered, false by default. `errorCss` class to be used in error message formatting;
 
-_`extendHighlighter(keywordsList)`_ - extends Prism highlighter with custom keywords;
+`extendHighlighter(keywordsList)` - extends Prism highlighter with custom keywords;
 
-_`markErrorInQuery(query, error, cssClass)`_ - inserts `<u>` element around offending character in the query. `error` here is an instance of the error thrown by `format` function.
+`markErrorInQuery(query, error, cssClass)` - inserts `<u>` element around offending character in the query. `error` here is an instance of the error thrown by `format` function.
