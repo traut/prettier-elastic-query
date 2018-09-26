@@ -2,7 +2,7 @@
   "name": "prettier-es",
   "version": "0.0.1",
   "description": "Elasticsearch query formatter and highlighter",
-  "main": "src/main.js",
+  "main": "dist/prettier-es.js",
   "dependencies": {
     "ohm-js": "^0.14.0",
     "prettier-printer": "^1.1.2",
@@ -22,6 +22,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -f dist/es-prettier.js dist/es-prettier.min.js dist/grammar.js",
     "lint": "node_modules/eslint/bin/eslint.js src",
+    "install": "npm run build",
     "prepare": "npm run lint",
     "build": "bash bin/build.sh"
   },
