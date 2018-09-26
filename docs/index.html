@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <title>prettier-es test</title>
-    <link href="resources/prettier-es.css" rel="stylesheet" type="text/css" />
-    <script src="resources/prettier-es.js" type="text/javascript"></script>
+    <link href="../dist/prettier-es.css" rel="stylesheet" type="text/css" />
+    <script src="../dist/prettier-es.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -27,6 +27,8 @@ meta.estimated_start_time:[now-1w/d+9h TO now/d+9h] AND Blah.(?? tags:“Funky T
 </code>
 </pre>
 <script>
+    PrettierEs.extendHighlighter(['WHITE', 'GREEN', 'AMBER', 'RED']);
+
     var example1Raw = document.getElementById("example1-raw");
     var example1Formatted = document.getElementById("example1-formatted");
     example1Formatted.innerHTML = PrettierEs.prettify(example1Raw.innerText, 90);
