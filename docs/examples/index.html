@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>prettier-es test</title>
+    <link href="resources/prettier-es.css" rel="stylesheet" type="text/css" />
+    <script src="resources/prettier-es.js" type="text/javascript"></script>
+</head>
+<body>
+
+<h3>Valid input:</h3>
+<code id="example1-raw">
+(((tags:"Superman Activity") AND (tags:("Source - Drainage Pipes" OR "Source Type - Fashion Magazines" OR "Source Type - Social Media" OR "Source - Time Travel" OR "Source - Alien Transmissions" OR "Source - Ghosts" OR "Source - Gossip" OR "Source - MenInHats")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - World Government") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Spiderman Activity") AND (tags:("Source - Drainage Pipes" OR "Source Type - Fashion Magazines" OR "Source Type - Social Media" OR "Source - MenInHats" OR "Source - Flashpoint" OR "Source - Ghosts")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - World Government") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Batman Activity") AND (tags:("Source - Drainage Pipes" OR "Source Type - Fashion Magazines" OR "Source Type - Social Media" OR "Source - Gossip" OR "Source - Ghosts")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - World Government") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Theme - Financial Crime") AND (tags:("Source - Drainage Pipes" OR "Source - MenInHats" OR "Source - Gossip" OR "Source Type - Fashion Magazines" OR "Source Type - Social Media" OR "Source - Ghosts")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - World Government") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Jocker Activity") AND (tags:("Source - Drainage Pipes" OR "Source Type - Fashion Magazines" OR "Source Type - Social Media" OR "Source - MenInHats" OR "Source - Gossip" OR "Source - Ghosts")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - World Government") OR meta.tlp_color:(WHITE OR GREEN))) OR ((tags:"Random Activity") AND (tags:("Source - Drainage Pipes" OR "Source Type - Fashion Magazines" OR "Source Type - Social Media" OR "Source - Time Travel" OR "Source - Alien Transmissions" OR "Source - Ghosts" OR "Source - Gossip" OR "Source - MenInHats")) AND ((meta.tlp_color:(RED OR AMBER) AND tags:"Customer - World Government") OR meta.tlp_color:(WHITE OR GREEN)))) AND (data.type:report AND tags:"BigBoss - Reviewed" AND created_at:[2018-06-06 TO *]) AND (-some_number:68 OR some_value:/joh?n(ath[oa]n)/)
+</code>
+<h3>Output:</h3>
+<pre>
+<code id="example1-formatted">
+</code>
+</pre>
+<h3>Invalid input:</h3>
+<code id="example2-raw">
+meta.estimated_start_time:[now-1w/d+9h TO now/d+9h] AND Blah.(?? tags:“Funky Tag” AND data.type:cookies-receipt
+</code>
+<h3>Output:</h3>
+<pre>
+<code id="example2-formatted">
+</code>
+</pre>
+<script>
+    var example1Raw = document.getElementById("example1-raw");
+    var example1Formatted = document.getElementById("example1-formatted");
+    example1Formatted.innerHTML = PrettierEs.prettify(example1Raw.innerText, 90);
+
+    var example2Raw = document.getElementById("example2-raw");
+    var example2Formatted = document.getElementById("example2-formatted");
+    example2Formatted.innerText = example2Raw.innerText;
+    PrettierEs.prettifyElement('example2-formatted', true, 90);
+</script>
+</body>
+</html>
