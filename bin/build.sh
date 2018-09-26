@@ -14,5 +14,8 @@ node_modules/parcel-bundler/bin/cli.js build -o dist/prettier-es.js --no-minify 
 # pack minified version
 node_modules/parcel-bundler/bin/cli.js build -o dist/prettier-es.min.js src/main.js
 
+# copy to docs/resources
+cp dist/*.min.* docs/resources/
+
 # cleanup
 rm -f dist/grammar.js

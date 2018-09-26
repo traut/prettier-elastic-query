@@ -16305,9 +16305,9 @@ function highlightQuery(query) {
   return prism.highlight(query, prism.languages.esquery, 'esquery');
 }
 
-function prettify(query, maxWidth) {
+function prettify(query, maxWidth, style) {
   maxWidth = maxWidth || 100;
-  var formatted = formatQuery(query, maxWidth);
+  var formatted = formatQuery(query, maxWidth, style);
   var highlighted = highlightQuery(formatted);
   return highlighted;
 }
