@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# create dist dir
+mkdir -p dist
+
 # pack grammar into JS file
 node bin/ohm-to-js.js src/grammar.ohm > dist/grammar.js.new
 mv -f dist/grammar.js.new dist/grammar.js
