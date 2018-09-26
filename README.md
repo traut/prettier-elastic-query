@@ -4,7 +4,7 @@ prettier-es
 [prettier-es](https://github.com/traut/prettier-es) is a library for formatting and highlighting Elasticsearch queries.
 
 prettier-es uses [Ohm](https://ohmlang.github.io/) parser to parse the query and [Prism](https://prismjs.com/) for highlighting it.
-See [demo page](https://traut.github.io/prettier-es/index.html) for examples or try [live editor](https://traut.github.io/prettier-es/index.html) with your own query.
+See [demo page](https://traut.github.io/prettier-es/index.html) for examples or try [live editor](https://traut.github.io/prettier-es/editor.html) with your own query.
 
 
 Getting Started
