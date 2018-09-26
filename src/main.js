@@ -249,13 +249,12 @@ prism.languages.esquery = {
   'variable': /@[\w.$]+|@(["'`])(?:\\[\s\S]|(?!\1)[^\\])+\1/,
   'boolean': /\b(?:true|false|null)\b/i,
   'number': /\b0x[\da-f]+\b|\b\d+\.?\d*|\B\.\d+\b/i,
-  'operator': /[-+\/=%^~]|&&?|\|\|?|!=?|<(?:=>?|<|>)?|>[>=]?|\b(?:AND|OR|TO|NOT)\b/i,
+  'operator': /[-+\/=%^~]|&&?|\|\|?|!=?|<(?:=>?|<|>)?|>[>=]?|\b(?:AND|OR|TO|NOT|_exists_)\b/i,
   'punctuation': /[;[\]()`,.]/,
 };
 
 function extendHighlighter(keywords) {
-  // 'keyword': /\b(?:WHITE|GREEN|AMBER|RED|_exists_|high|medium|low)\b/i,
-  let keywordsExpr = '\b(?:' + keywords.join('|') + ')\b';
+  let keywordsExpr = '\\b(?:' + keywords.join('|') + ')\\b';
   prism.languages.esquery['keyword'] = new RegExp(keywordsExpr, 'i');
 }
 
@@ -263,9 +262,9 @@ function highlightQuery(query) {
   return prism.highlight(query, prism.languages.esquery, 'esquery');
 }
 
-function prettify(query, maxWidth) {
+function prettify(query, maxWidth, style) {
   maxWidth = maxWidth || 100;
-  let formatted = formatQuery(query, maxWidth);
+  let formatted = formatQuery(query, maxWidth, style);
   let highlighted = highlightQuery(formatted);
   return highlighted;
 }
@@ -318,7 +317,7 @@ var PrettierEs = {
   markErrorInQuery: markErrorInQuery,
 };
 
-export default PrettierEs;
+module.exports = PrettierEs;
 
 if (typeof window !== 'undefined') {
     window.PrettierEs = PrettierEs;
