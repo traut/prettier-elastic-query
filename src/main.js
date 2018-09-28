@@ -1,12 +1,13 @@
-/* eslint-disable */
-var _ = require('underscore');
-var pp = require('prettier-printer');
-var prism = require('prismjs');
-var queryGrammar = require('../dist/grammar');
+let _ = require('underscore');
+let pp = require('prettier-printer');
+let prism = require('prismjs');
+let queryGrammar = require('../dist/grammar');
 
-var prismTheme = require('prismjs/themes/prism.css');
+// import css scheme for parceljs to pick it up
+/* eslint-disable-next-line no-unused-vars */
+let prismTheme = require('prismjs/themes/prism.css');
 
-var syntaxActionsMap = {
+let syntaxActionsMap = {
   'nonemptyListOf': flattenNonemptyListOf,
   'spaced': flattenSpaced,
   'parented': flattenParented,
@@ -120,16 +121,6 @@ function flattenDetachedCondition(children) {
   return this.sourceString;
 }
 
-
-function isFlatList(list) {
-  let nonFlat = list.filter(function(el) {
-    return (
-      !(el.value === undefined)
-            && !(typeof(el.value) === 'string'));
-  });
-  return nonFlat.length == 0;
-}
-
 function formatFlatTree(tree, maxWidth, style) {
   style = style || 'lisp';
 
@@ -153,7 +144,7 @@ function formatFlatTree(tree, maxWidth, style) {
         // simple 2 space indent alignment
         return pp.group(pp.nest(2, result));
       default:
-        throw 'Unknown formatting style \'' + style + '\'';
+        throw new Error('Unknown formatting style \'' + style + '\'');
     }
   }
 
@@ -218,7 +209,7 @@ function formatFlatTree(tree, maxWidth, style) {
           return '<NO FORMATER DEFINED FOR \'' + node['type'] + '\'>';
         }
       default:
-        throw 'Unknown object type \'' + (typeof node) + '\'';
+        throw new Error('Unknown object type \'' + (typeof node) + '\'');
     }
   }
 }
@@ -271,7 +262,7 @@ function prettify(query, maxWidth, style) {
 
 function formatErrorMessage(error, cssClass) {
   let styling = (
-        cssClass ? ('class="' + cssClass + '"') : 'style="color:red"');
+    cssClass ? ('class="' + cssClass + '"') : 'style="color:red"');
   return '<p ' + styling + '>' + error.shortMessage + '</p>';
 }
 
@@ -308,7 +299,7 @@ function markErrorInQuery(query, error, cssClass) {
   return part1 + '<u ' + styling + '>' + query[index] + '</u>' + part2;
 }
 
-var PrettierEs = {
+let PrettierEs = {
   format: formatQuery,
   highlight: highlightQuery,
   prettify: prettify,
@@ -320,5 +311,5 @@ var PrettierEs = {
 module.exports = PrettierEs;
 
 if (typeof window !== 'undefined') {
-    window.PrettierEs = PrettierEs;
+  window.PrettierEs = PrettierEs;
 }

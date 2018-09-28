@@ -1,4 +1,10 @@
 {
     "extends": "google",
-    "parser": "babel-eslint"
+    "parser": "babel-eslint",
+    "rules": {
+        "no-invalid-this": "off",
+        "space-before-function-paren": "off",
+        "require-jsdoc": "off",
+        "max-len": ["error", {"code": 100}]
+    }
 }
