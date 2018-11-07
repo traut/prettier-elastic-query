@@ -30,8 +30,8 @@
     function prettify() {
         var raw = document.getElementById("editor-input").value;
         document.getElementById("result").innerHTML = PrettierEs.prettify(raw, 90);
-        document.getElementById("copy-text-result").innerText = '';
         document.getElementById("copy-html-result").innerText = '';
+        document.getElementById("copy-text-result").innerText = '';
     }
     function copyHtml() {
         var dt = new clipboard.DT();
@@ -43,7 +43,7 @@
         var dt = new clipboard.DT();
         dt.setData("text/plain", document.getElementById("result-wrapper").innerText);
         clipboard.write(dt);
-        document.getElementById("copy-html-result").innerText = ' ✓';
+        document.getElementById("copy-text-result").innerText = ' ✓';
     }
 </script>
 </body>
