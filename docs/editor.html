@@ -11,7 +11,7 @@
             width: 70%;
             height: 200px;
         }
-        #copy-result {
+        .copy-result {
             color: green;
         }
     </style>
@@ -22,8 +22,8 @@
 <textarea placeholder="Query text" id="editor-input"></textarea>
 <p>
 <button onClick="javascript:prettify()">Prettify</button>
-<button onClick="javascript:copyText()">Copy plain text</button><span id="copy-text-result"></span>
-<button onClick="javascript:copyHtml()">Copy HTML</button><span id="copy-html-result"></span>
+<button onClick="javascript:copyText()">Copy plain text</button><span id="copy-text-result" class="copy-result"></span>
+<button onClick="javascript:copyHtml()">Copy HTML</button><span id="copy-html-result" class="copy-result"></span>
 </p>
 <span id="result-wrapper"><pre><code id="result"></code></pre></span>
 <script>
