@@ -29,7 +29,12 @@
 <script>
     function prettify() {
         var raw = document.getElementById("editor-input").value;
-        document.getElementById("result").innerHTML = PrettierEs.prettify(raw, 90);
+        try {
+            document.getElementById("result").innerHTML = PrettierEs.prettify(raw, 90);
+        } catch (err) {
+            document.getElementById("result").innerHTML = err.message;
+        }
+
         document.getElementById("copy-html-result").innerText = '';
         document.getElementById("copy-text-result").innerText = '';
     }
