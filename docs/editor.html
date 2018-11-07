@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <title>Elasticsearch Query Prettifier</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard-polyfill/2.5.4/clipboard-polyfill.js" type="text/javascript"></script>
-    <link href="resources/prettier-es.min.css" rel="stylesheet" type="text/css" />
-    <script src="resources/prettier-es.min.js" type="text/javascript"></script>
+    <link href="resources/prettier-elastic-query.min.css" rel="stylesheet" type="text/css" />
+    <script src="resources/prettier-elastic-query.min.js" type="text/javascript"></script>
     <style>
         textarea {
             width: 70%;
@@ -17,12 +17,13 @@
     </style>
 </head>
 <body>
-<h3>Elasticsearch query prettifier</h3>
-<p>Demo page for <a href="https://github.com/traut/prettier-es">prettier-es</a> library</p>
+<h3>Elasticsearch Query Prettifier</h3>
+<p>Demo page for <a href="https://github.com/traut/prettier-elastic-query">prettier-elastic-query</a> library</p>
 <textarea placeholder="Query text" id="editor-input"></textarea>
 <p>
 <button onClick="javascript:prettify()">Prettify</button>
-<button onClick="javascript:copy()">Copy HTML result</button><span id="copy-result"></span>
+<button onClick="javascript:copyText()">Copy plain text</button><span id="copy-result"></span>
+<button onClick="javascript:copyHtml()">Copy HTML</button><span id="copy-result"></span>
 </p>
 <span id="result-wrapper"><pre><code id="result"></code></pre></span>
 <script>
@@ -31,9 +32,15 @@
         document.getElementById("result").innerHTML = PrettierEs.prettify(raw, 90);
         document.getElementById("copy-result").innerText = '';
     }
-    function copy() {
+    function copyHtml() {
         var dt = new clipboard.DT();
-        dt.setData("text/plain", document.getElementById("result-wrapper").innerHTML);
+        dt.setData("text/html", document.getElementById("result-wrapper").innerHTML);
+        clipboard.write(dt);
+        document.getElementById("copy-result").innerText = ' ✓';
+    }
+    function copyText() {
+        var dt = new clipboard.DT();
+        dt.setData("text/plain", document.getElementById("result-wrapper").innerText);
         clipboard.write(dt);
         document.getElementById("copy-result").innerText = ' ✓';
     }

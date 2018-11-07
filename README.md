@@ -1,50 +1,55 @@
-prettier-es
-===========
+prettier-elastic-query
+======================
 
-[prettier-es](https://github.com/traut/prettier-es) is a library for formatting and highlighting Elasticsearch queries.
+[prettier-elastic-query](https://github.com/traut/prettier-elastic-query) is a library for formatting and highlighting Elasticsearch queries.
 
-prettier-es uses [Ohm](https://ohmlang.github.io/) parser to parse the query and [Prism](https://prismjs.com/) for highlighting it.
-See [demo page](https://traut.github.io/prettier-es/index.html) for examples or try [live editor](https://traut.github.io/prettier-es/editor.html) with your own query.
+prettier-elastic-query uses [Ohm](https://ohmlang.github.io/) parser to parse the query and [Prism](https://prismjs.com/) for highlighting it.
+See [demo page](https://traut.github.io/prettier-elastic-query/index.html) for examples or try [live editor](https://traut.github.io/prettier-elastic-query/editor.html) with your own query.
 
 
 Getting Started
 ---------------
 ### Installation
 
-If you are using Node.js, you can just install the `prettier-es` package using [npm](http://npmjs.org):
+If you are using Node.js, you can just install the `prettier-elastic-query` package using [npm](http://npmjs.org):
 
-    npm install prettier-es
+    npm install prettier-elastic-query
 
-This will install prettier-es in the local `node_modules` folder. Use `require` to access it from a Node script:
+This will install prettier-elastic-query in the local `node_modules` folder. Use `require` to access it from a Node script:
 
 ```js
-var prettier = require('prettier-es');
+var prettier = require('prettier-elastic-query');
 ```
 
-If you want to use prettier-es in a browser, you can download [prettier-es.min.js](https://raw.githubusercontent.com/traut/prettier-es/master/dist/prettier-es.min.js) and [prettier-es.min.css](https://raw.githubusercontent.com/traut/prettier-es/master/dist/prettier-es.min.css) and reference it in your HTML file.
+If you want to use prettier-elastic-query in a browser, you can download [prettier-elastic-query.min.js](https://raw.githubusercontent.com/traut/prettier-elastic-query/master/dist/prettier-elastic-query.min.js) and [prettier-elastic-query.min.css](https://raw.githubusercontent.com/traut/prettier-elastic-query/master/dist/prettier-elastic-query.min.css) and reference it in your HTML file.
 
 ```html
-<link href="resources/prettier-es.min.css" rel="stylesheet" type="text/css"/>
-<script src="resources/prettier-es.min.js" type="text/javascript"></script>
+<link href="resources/prettier-elastic-query.min.css" rel="stylesheet" type="text/css"/>
+<script src="resources/prettier-elastic-query.min.js" type="text/javascript"></script>
 <script>
     console.info(PrettierEs.prettify("query text", 80));
 </script>
 ```
 
-See [demo page source](https://github.com/traut/prettier-es/blob/master/docs/index.html) for usage example.
+See [demo page source](https://github.com/traut/prettier-elastic-query/blob/master/docs/index.html) for usage example.
 
 API reference
 -------------
 
-`format(query, maxWidth, style)` - format ES query, fitting it in `maxWidth` characters per line and following provided style. Possible style options are `lisp` and `simple`, with `lisp` being used if no style argument provided;
-
-`highlight(query)` - highlight query with [Prism](https://prismjs.com/). prettier-es build provides default Prism css theme. You can use any Prism theme, just include theme's css style file in your html file;
-
 `prettify(query, maxWidth, style)` - format and highlight ES query. Calls `format()` and `highlight()` functions inside;
-
 
 `prettifyElement(elementId, showErrors, maxWidth, errorCss)` - formats and highlights ES query inplace inside HTML element. `showErrors` - boolean indicating if error information should be rendered, false by default. `errorCss` class to be used in error message formatting;
 
-`extendHighlighter(keywordsList)` - extends Prism highlighter with custom keywords;
+`format(query, maxWidth, style)` - format ES query, fitting it in `maxWidth` characters per line and following provided style. Possible style options are `lisp` and `simple`, with `lisp` being used if no style argument provided;
+
+`highlight(query)` - highlight query with [Prism](https://prismjs.com/). prettier-elastic-query build provides default Prism css theme. You can use any Prism theme, just include theme's css style file in your html file;
+
+`parse(query)` - parse query and return syntax tree. This function throws an error if parsing fails. Used by `format()` function;
+
+`extendHighlighter(options)` - takes `options` dictionary and extends Prism highlighter. At the moment only `keywords` key in `options` is supported and is used to extend `keyword` Prism language configuration;
 
 `markErrorInQuery(query, error, cssClass)` - inserts `<u>` element around offending character in the query. `error` here is an instance of the error thrown by `format` function.
+
+`prism` - Prism object;
+
+`grammar` - Ohm grammar.

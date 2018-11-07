@@ -3,6 +3,7 @@
     "parser": "babel-eslint",
     "rules": {
         "no-invalid-this": "off",
+        "indent": ["error", 4],
         "space-before-function-paren": "off",
         "require-jsdoc": "off",
         "max-len": ["error", {"code": 100}]

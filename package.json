@@ -1,8 +1,8 @@
 {
-  "name": "prettier-es",
+  "name": "prettier-elastic-query",
   "version": "0.0.1",
   "description": "Elasticsearch query formatter and highlighter",
-  "main": "dist/prettier-es.js",
+  "main": "dist/prettier-elastic-query.js",
   "dependencies": {
     "ohm-js": "^0.14.0",
     "prettier-printer": "^1.1.2",
@@ -16,7 +16,7 @@
     "parcel-bundler": "^1.10.0"
   },
   "bin": {
-    "prettier-es": "bin/cli.js"
+    "prettier-elastic-query": "bin/cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -28,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/traut/prettier-es.git"
+    "url": "git+https://github.com/traut/prettier-elastic-query.git"
   },
   "keywords": [
     "elasticsearch",
@@ -39,7 +39,7 @@
   "author": "Sergey Polzunov <sergey@polzunov.com>",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/traut/prettier-es/issues"
+    "url": "https://github.com/traut/prettier-elastic-query/issues"
   },
-  "homepage": "https://github.com/traut/prettier-es#readme"
+  "homepage": "https://github.com/traut/prettier-elastic-query#readme"
 }

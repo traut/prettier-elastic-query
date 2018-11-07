@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
-var pretty = require('prettier-es');
+var pretty = require('prettier-elastic-query');
 
 var args = process.argv.slice(2);
 

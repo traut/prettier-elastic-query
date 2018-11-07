@@ -16038,14 +16038,16 @@ module.exports = ohm.makeRecipe(["grammar", {
 },{}],"epB2":[function(require,module,exports) {
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-/* eslint-disable */
 var _ = require('underscore');
 
 var pp = require('prettier-printer');
 
 var prism = require('prismjs');
 
-var queryGrammar = require('../dist/grammar');
+var queryGrammar = require('../dist/grammar'); // import css scheme for parceljs to pick it up
+
+/* eslint-disable-next-line no-unused-vars */
+
 
 var prismTheme = require('prismjs/themes/prism.css');
 
@@ -16165,13 +16167,6 @@ function flattenDetachedCondition(children) {
   return this.sourceString;
 }
 
-function isFlatList(list) {
-  var nonFlat = list.filter(function (el) {
-    return !(el.value === undefined) && !(typeof el.value === 'string');
-  });
-  return nonFlat.length == 0;
-}
-
 function formatFlatTree(tree, maxWidth, style) {
   style = style || 'lisp';
   var formattersMap = {
@@ -16195,7 +16190,7 @@ function formatFlatTree(tree, maxWidth, style) {
         return pp.group(pp.nest(2, result));
 
       default:
-        throw 'Unknown formatting style \'' + style + '\'';
+        throw new Error('Unknown formatting style \'' + style + '\'');
     }
   }
 
@@ -16259,12 +16254,12 @@ function formatFlatTree(tree, maxWidth, style) {
         }
 
       default:
-        throw 'Unknown object type \'' + _typeof(node) + '\'';
+        throw new Error('Unknown object type \'' + _typeof(node) + '\'');
     }
   }
 }
 
-function formatQuery(query, maxWidth, style) {
+function parseQuery(query) {
   var match = queryGrammar.match(query);
 
   if (match.failed()) {
@@ -16273,13 +16268,19 @@ function formatQuery(query, maxWidth, style) {
     error.shortMessage = match.shortMessage;
     error.rightmostFailurePosition = match.getRightmostFailurePosition();
     error.expectedText = match.getExpectedText();
-    error.match = match;
+    error.match = match; // TODO: format and highlight partial match if possible
+
     throw error;
   }
 
   var semantics = queryGrammar.createSemantics().addOperation('flatten', syntaxActionsMap);
   var tree = semantics(match);
   var flatTree = tree.flatten();
+  return flatTree;
+}
+
+function formatQuery(query, maxWidth, style) {
+  var flatTree = parseQuery(query);
   return formatFlatTree(flatTree, maxWidth, style);
 }
 
@@ -16296,9 +16297,13 @@ prism.languages.esquery = {
   'punctuation': /[;[\]()`,.]/
 };
 
-function extendHighlighter(keywords) {
-  var keywordsExpr = '\\b(?:' + keywords.join('|') + ')\\b';
-  prism.languages.esquery['keyword'] = new RegExp(keywordsExpr, 'i');
+function extendHighlighter(options) {
+  var keywords = options['keywords'] || [];
+
+  if (keywords) {
+    var keywordsExpr = '\\b(?:' + keywords.join('|') + ')\\b';
+    prism.languages.esquery['keyword'] = new RegExp(keywordsExpr, 'i');
+  }
 }
 
 function highlightQuery(query) {
@@ -16353,12 +16358,15 @@ function markErrorInQuery(query, error, cssClass) {
 }
 
 var PrettierEs = {
-  format: formatQuery,
-  highlight: highlightQuery,
   prettify: prettify,
   prettifyElement: prettifyElement,
+  format: formatQuery,
+  highlight: highlightQuery,
+  parse: parseQuery,
   extendHighlighter: extendHighlighter,
-  markErrorInQuery: markErrorInQuery
+  markErrorInQuery: markErrorInQuery,
+  prism: prism,
+  grammar: queryGrammar
 };
 module.exports = PrettierEs;
 
@@ -16366,4 +16374,4 @@ if (typeof window !== 'undefined') {
   window.PrettierEs = PrettierEs;
 }
 },{"underscore":"h15N","prettier-printer":"2fpi","prismjs":"6hKA","../dist/grammar":"2lmm","prismjs/themes/prism.css":"/P8c"}]},{},["epB2"], null)
-//# sourceMappingURL=/prettier-es.map
+//# sourceMappingURL=/prettier-elastic-query.map

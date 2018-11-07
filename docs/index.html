@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>prettier-es test</title>
-    <link href="resources/prettier-es.min.css" rel="stylesheet" type="text/css" />
-    <script src="resources/prettier-es.min.js" type="text/javascript"></script>
+    <title>prettier-elastic-query demo page</title>
+    <link href="resources/prettier-elastic-query.min.css" rel="stylesheet" type="text/css" />
+    <script src="resources/prettier-elastic-query.min.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -27,7 +27,7 @@ meta.estimated_start_time:[now-1w/d+9h TO now/d+9h] AND Blah.(?? tags:“Funky T
 </code>
 </pre>
 <script>
-    PrettierEs.extendHighlighter(['WHITE', 'GREEN', 'AMBER', 'RED']);
+    PrettierEs.extendHighlighter({'keywords': ['WHITE', 'GREEN', 'AMBER', 'RED']});
 
     var example1Raw = document.getElementById("example1-raw");
     var example1Formatted = document.getElementById("example1-formatted");
