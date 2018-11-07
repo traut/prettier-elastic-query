@@ -22,27 +22,28 @@
 <textarea placeholder="Query text" id="editor-input"></textarea>
 <p>
 <button onClick="javascript:prettify()">Prettify</button>
-<button onClick="javascript:copyText()">Copy plain text</button><span id="copy-result"></span>
-<button onClick="javascript:copyHtml()">Copy HTML</button><span id="copy-result"></span>
+<button onClick="javascript:copyText()">Copy plain text</button><span id="copy-text-result"></span>
+<button onClick="javascript:copyHtml()">Copy HTML</button><span id="copy-html-result"></span>
 </p>
 <span id="result-wrapper"><pre><code id="result"></code></pre></span>
 <script>
     function prettify() {
         var raw = document.getElementById("editor-input").value;
         document.getElementById("result").innerHTML = PrettierEs.prettify(raw, 90);
-        document.getElementById("copy-result").innerText = '';
+        document.getElementById("copy-text-result").innerText = '';
+        document.getElementById("copy-html-result").innerText = '';
     }
     function copyHtml() {
         var dt = new clipboard.DT();
-        dt.setData("text/html", document.getElementById("result-wrapper").innerHTML);
+        dt.setData("text/plain", document.getElementById("result-wrapper").innerHTML);
         clipboard.write(dt);
-        document.getElementById("copy-result").innerText = ' ✓';
+        document.getElementById("copy-html-result").innerText = ' ✓';
     }
     function copyText() {
         var dt = new clipboard.DT();
         dt.setData("text/plain", document.getElementById("result-wrapper").innerText);
         clipboard.write(dt);
-        document.getElementById("copy-result").innerText = ' ✓';
+        document.getElementById("copy-html-result").innerText = ' ✓';
     }
 </script>
 </body>
