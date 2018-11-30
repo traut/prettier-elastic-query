@@ -14,6 +14,9 @@
         .copy-result {
             color: green;
         }
+        input#widthChars {
+            width: 40px;
+        }
     </style>
 </head>
 
@@ -21,21 +24,31 @@
 <h3>Elasticsearch Query Prettifier</h3>
 <p>Demo page for <a href="https://github.com/traut/prettier-elastic-query">prettier-elastic-query</a> library</p>
 <textarea placeholder="Query text" id="editor-input"></textarea>
+<p><label for="widthChars">max width:</label> <input id="widthChars" value="80" type="text" name="widthChars"/>
+    <select id="style" name="style">
+        <option value="lisp">Lisp style</option>
+        <option value="simple">Simple style</option>
+    </select>
 <p>
 <button onClick="javascript:prettify()">Prettify</button>
+</p>
+<span id="result-wrapper"><pre><code id="result"></code></pre></span>
+<p>
 <button onClick="javascript:copyText()">Copy plain text</button><span id="copy-text-result" class="copy-result"></span>
 <button onClick="javascript:copyHtml()">Copy HTML</button><span id="copy-html-result" class="copy-result"></span>
 </p>
-<span id="result-wrapper"><pre><code id="result"></code></pre></span>
 <script>
     function prettify() {
         var raw = document.getElementById("editor-input").value;
+        var width = document.getElementById("widthChars").value;
+        var style = document.getElementById("style").value;
+        var result = null;
         try {
-            document.getElementById("result").innerHTML = PrettierEs.prettify(raw, 90);
+            result = PrettierEs.prettify(raw, width, style);
         } catch (err) {
-            document.getElementById("result").innerHTML = err.message;
+            result = err.message;
         }
-
+        document.getElementById("result").innerHTML = result;
         document.getElementById("copy-html-result").innerText = '';
         document.getElementById("copy-text-result").innerText = '';
     }
