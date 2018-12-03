@@ -1,6 +1,8 @@
 prettier-elastic-query
 ======================
 
+[![npm version](https://badge.fury.io/js/prettier-elastic-query.svg)](https://badge.fury.io/js/prettier-elastic-query)
+
 [prettier-elastic-query](https://github.com/traut/prettier-elastic-query) is a library for formatting and highlighting Elasticsearch queries.
 
 prettier-elastic-query uses [Ohm](https://ohmlang.github.io/) parser to parse the query and [Prism](https://prismjs.com/) for highlighting it.
