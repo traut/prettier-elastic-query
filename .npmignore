@@ -1,5 +1,4 @@
 .cache
-src
 .gitignore
 .npmignore
 node_module
