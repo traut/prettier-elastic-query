@@ -3,9 +3,13 @@ let pp = require('prettier-printer');
 let prism = require('prismjs');
 let queryGrammar = require('./grammar');
 
-// import css scheme for parceljs to pick it up
-/* eslint-disable-next-line no-unused-vars */
-let prismTheme = require('prismjs/themes/prism.css');
+
+// do not load CSS if the code is running on the server side
+if (process.env.APP_ENV === 'browser') {
+    // import css for webpack to include
+    /* eslint-disable-next-line no-unused-vars */
+    let prismTheme = require('prismjs/themes/prism.css');
+}
 
 let syntaxActionsMap = {
     'nonemptyListOf': flattenNonemptyListOf,
