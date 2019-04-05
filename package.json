@@ -2,7 +2,7 @@
   "name": "prettier-elastic-query",
   "version": "0.0.3",
   "description": "Elasticsearch query formatter and highlighter",
-  "main": "dist/prettier-elastic-query.js",
+  "main": "src/main.js",
   "dependencies": {
     "deasync": "0.1.14",
     "ohm-js": "^0.14.0",
@@ -27,7 +27,7 @@
   },
   "scripts": {
     "build-grammar": "node bin/ohm-to-js.js src/grammar.ohm > src/grammar.js",
-    "build": "yarn build-grammar && npx webpack --optimize-minimize",
+    "build": "yarn build-grammar && npx webpack",
     "lint": "npx eslint src",
     "prepare": "yarn lint",
     "prepublish": "yarn build"
