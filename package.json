@@ -1,8 +1,8 @@
 {
   "name": "prettier-elastic-query",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Elasticsearch query formatter and highlighter",
-  "main": "src/main.js",
+  "main": "dist/prettier-elastic-query.min.js",
   "dependencies": {
     "deasync": "0.1.14",
     "ohm-js": "^0.14.0",

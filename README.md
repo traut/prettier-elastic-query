@@ -6,7 +6,7 @@ prettier-elastic-query
 [prettier-elastic-query](https://github.com/traut/prettier-elastic-query) is a library for formatting and highlighting Elasticsearch queries.
 
 prettier-elastic-query uses [Ohm](https://ohmlang.github.io/) parser to parse the query and [Prism](https://prismjs.com/) for highlighting it.
-See [demo page](https://traut.github.io/prettier-elastic-query/demos/index.html) for examples or try [live editor](https://traut.github.io/prettier-elastic-query/demos/editor.html) with your own query.
+See [demo page](https://traut.github.io/prettier-elastic-query/dist/demos/index.html) for examples or try [live editor](https://traut.github.io/prettier-elastic-query/dist/demos/editor.html) with your own query.
 
 
 Getting Started
