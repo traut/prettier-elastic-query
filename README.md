@@ -6,7 +6,7 @@ prettier-elastic-query
 [prettier-elastic-query](https://github.com/traut/prettier-elastic-query) is a library for formatting and highlighting Elasticsearch queries.
 
 prettier-elastic-query uses [Ohm](https://ohmlang.github.io/) parser to parse the query and [Prism](https://prismjs.com/) for highlighting it.
-See [demo page](https://traut.github.io/prettier-elastic-query/index.html) for examples or try [live editor](https://traut.github.io/prettier-elastic-query/editor.html) with your own query.
+See [demo page](https://traut.github.io/prettier-elastic-query/demos/index.html) for examples or try [live editor](https://traut.github.io/prettier-elastic-query/demos/editor.html) with your own query.
 
 
 Getting Started
@@ -23,17 +23,16 @@ This will install prettier-elastic-query in the local `node_modules` folder. Use
 var prettier = require('prettier-elastic-query');
 ```
 
-If you want to use prettier-elastic-query in a browser, you can download [prettier-elastic-query.min.js](https://raw.githubusercontent.com/traut/prettier-elastic-query/master/dist/prettier-elastic-query.min.js) and [prettier-elastic-query.min.css](https://raw.githubusercontent.com/traut/prettier-elastic-query/master/dist/prettier-elastic-query.min.css) and reference it in your HTML file.
+If you want to use prettier-elastic-query in a browser, you can download [prettier-elastic-query.min.js](https://raw.githubusercontent.com/traut/prettier-elastic-query/master/dist/prettier-elastic-query.min.js) and reference it in your HTML file.
 
 ```html
-<link href="resources/prettier-elastic-query.min.css" rel="stylesheet" type="text/css"/>
-<script src="resources/prettier-elastic-query.min.js" type="text/javascript"></script>
+<script src="prettier-elastic-query.min.js" type="text/javascript"></script>
 <script>
     console.info(PrettierEs.prettify("query text", 80));
 </script>
 ```
 
-See [demo page source](https://github.com/traut/prettier-elastic-query/blob/master/docs/index.html) for usage example.
+See [demo page source](https://github.com/traut/prettier-elastic-query/blob/master/dist/demos/index.html) for usage example.
 
 API reference
 -------------

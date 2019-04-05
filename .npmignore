@@ -1,3 +1,5 @@
 .cache
-test-queries.txt
-dist
+src
+.gitignore
+.npmignore
+node_module

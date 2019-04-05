@@ -1,7 +1,7 @@
 let _ = require('underscore');
 let pp = require('prettier-printer');
 let prism = require('prismjs');
-let queryGrammar = require('../dist/grammar');
+let queryGrammar = require('./grammar');
 
 // import css scheme for parceljs to pick it up
 /* eslint-disable-next-line no-unused-vars */
