@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+require.extensions['.css'] = function() {};
+
 var fs = require('fs');
 var pretty = require('prettier-elastic-query');
 

@@ -4,12 +4,10 @@ let prism = require('prismjs');
 let queryGrammar = require('./grammar');
 
 
-// do not load CSS if the code is running on the server side
-if (process.env.APP_ENV === 'browser') {
-    // import css for webpack to include
-    /* eslint-disable-next-line no-unused-vars */
-    let prismTheme = require('prismjs/themes/prism.css');
-}
+// import css for webpack to include
+/* eslint-disable-next-line no-unused-vars */
+let prismTheme = require('prismjs/themes/prism.css');
+
 
 let syntaxActionsMap = {
     'nonemptyListOf': flattenNonemptyListOf,
@@ -27,9 +25,11 @@ let syntaxActionsMap = {
     '_terminal': terminalAction,
 };
 
+
 function terminalAction() {
     return this.primitiveValue;
 }
+
 
 function flattenNonemptyListOf(first, separators, rest) {
     let topNodes = [first].concat([separators, rest]);
@@ -48,9 +48,11 @@ function flattenNonemptyListOf(first, separators, rest) {
     });
 }
 
+
 function flattenSpaced(_, innerNode, __) {
     return innerNode.flatten();
 }
+
 
 function flattenOrSpace(children) {
     return {
@@ -59,12 +61,14 @@ function flattenOrSpace(children) {
     };
 }
 
+
 function flattenParented(_, __, innerNode, ___, ____) {
     return {
         'type': 'parented',
         'value': innerNode.flatten(),
     };
 }
+
 
 function flattenBoolOperator(children) {
     let operator = children._node.primitiveValue;
@@ -74,6 +78,7 @@ function flattenBoolOperator(children) {
     };
 }
 
+
 function flattenFieldCondition(nameNode, _, valueNode) {
     return {
         'type': 'fieldCondition',
@@ -81,6 +86,7 @@ function flattenFieldCondition(nameNode, _, valueNode) {
         'value': valueNode.flatten(),
     };
 }
+
 
 function flattenRangeCondition(_, __, fromValue, ___, toValue, ____, _____) {
     return {
@@ -90,12 +96,14 @@ function flattenRangeCondition(_, __, fromValue, ___, toValue, ____, _____) {
     };
 }
 
+
 function flattenRegexCondition(_, expression, __) {
     return {
         'type': 'regexCondition',
         'expression': expression.sourceString,
     };
 }
+
 
 function flattenLongNegation(negation, spaces, condition) {
     return {
@@ -105,6 +113,7 @@ function flattenLongNegation(negation, spaces, condition) {
     };
 }
 
+
 function flattenSimpleNegation(_, condition) {
     return {
         'type': 'marking',
@@ -112,6 +121,7 @@ function flattenSimpleNegation(_, condition) {
         'value': condition.flatten(),
     };
 }
+
 
 function flattenSimpleMust(_, condition) {
     return {
@@ -121,9 +131,11 @@ function flattenSimpleMust(_, condition) {
     };
 }
 
+
 function flattenDetachedCondition(children) {
     return this.sourceString;
 }
+
 
 function formatFlatTree(tree, maxWidth, style) {
     style = style || 'lisp';
@@ -218,6 +230,7 @@ function formatFlatTree(tree, maxWidth, style) {
     }
 }
 
+
 function parseQuery(query) {
     let match = queryGrammar.match(query);
     if (match.failed()) {
@@ -236,10 +249,12 @@ function parseQuery(query) {
     return flatTree;
 }
 
+
 function formatQuery(query, maxWidth, style) {
     let flatTree = parseQuery(query);
     return formatFlatTree(flatTree, maxWidth, style);
 }
+
 
 prism.languages.esquery = {
     'string': {
@@ -254,6 +269,7 @@ prism.languages.esquery = {
     'punctuation': /[;[\]()`,.]/,
 };
 
+
 function extendHighlighter(options) {
     let keywords = options['keywords'] || [];
     if (keywords) {
@@ -262,9 +278,11 @@ function extendHighlighter(options) {
     }
 }
 
+
 function highlightQuery(query) {
     return prism.highlight(query, prism.languages.esquery, 'esquery');
 }
+
 
 function prettify(query, maxWidth, style) {
     maxWidth = maxWidth || 100;
@@ -273,11 +291,13 @@ function prettify(query, maxWidth, style) {
     return highlighted;
 }
 
+
 function formatErrorMessage(error, cssClass) {
     let styling = (
         cssClass ? ('class="' + cssClass + '"') : 'style="color:red"');
     return '<p ' + styling + '>' + error.shortMessage + '</p>';
 }
+
 
 function prettifyElement(elementId, showErrors, maxWidth, errorCss) {
     let element = document.getElementById(elementId);
@@ -313,6 +333,7 @@ function markErrorInQuery(query, error, cssClass) {
     return part1 + '<u ' + styling + '>' + query[index] + '</u>' + part2;
 }
 
+
 let PrettierEs = {
     prettify: prettify,
     prettifyElement: prettifyElement,
@@ -325,7 +346,9 @@ let PrettierEs = {
     grammar: queryGrammar,
 };
 
+
 module.exports = PrettierEs;
+
 
 if (typeof window !== 'undefined') {
     window.PrettierEs = PrettierEs;

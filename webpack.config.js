@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -15,14 +14,11 @@ const demoFiles = fs.readdirSync(DEMO_SRC_DIR).map(function(filename) {
     }
 })
 
-let plugins = demoFiles.map(function(details) {return new HtmlWebpackPlugin(details)});
+
+let plugins = demoFiles.map(function(details) {
+    return new HtmlWebpackPlugin(details)
+});
 plugins.unshift(new CleanWebpackPlugin());
-plugins.unshift(new webpack.DefinePlugin({
-    'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-        APP_ENV: JSON.stringify('browser')
-    }
-}))
 
 
 module.exports = {
