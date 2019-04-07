@@ -25,6 +25,7 @@
   "bin": {
     "prettier-elastic-query": "bin/cli.js"
   },
+  "unpkg": "dist/prettier-elastic-query.min.js",
   "scripts": {
     "build-grammar": "node bin/ohm-to-js.js src/grammar.ohm > src/grammar.js",
     "build": "yarn build-grammar && npx webpack",
