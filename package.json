@@ -1,6 +1,6 @@
 {
   "name": "prettier-elastic-query",
-  "version": "0.0.7",
+  "version": "1.0.1",
   "description": "Elasticsearch query formatter and highlighter",
   "main": "src/main.js",
   "dependencies": {
