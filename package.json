@@ -6,6 +6,7 @@
   "dependencies": {
     "deasync": "0.1.14",
     "js-yaml": "^3.13.1",
+    "lodash": "^4.17.14",
     "ohm-js": "^0.14.0",
     "prettier-printer": "^1.1.2",
     "prismjs": "^1.15.0",
