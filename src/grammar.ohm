@@ -1,7 +1,5 @@
 // KNOWN ISSUES:
 // - no support for wildcards in field names
-// - no support for fuzzines or proximity searches
-// - primitive support for ranges
 // - no support for boosting
 //
 // ES docs -- https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html
@@ -31,7 +29,10 @@ ESQueryGrammar {
     unquotedString = ~reservedWord (escapedESStringCharacter | wildcardCharacter | alnum | "_" | "." | "-" | "’")+
     quotedString = "\"" doubleStringCharacter* "\""
 
-    detachedCond = quotedString | unquotedString
+    unquotedFuzzyString = unquotedString "~" alnum+
+    quotedFuzzyString = "\"" doubleStringCharacter* "\"" "~" alnum+
+
+    detachedCond = quotedFuzzyString | unquotedFuzzyString | quotedString | unquotedString
 
     // UTILS
     spaced<x> = space+ x space+
@@ -46,13 +47,14 @@ ESQueryGrammar {
 
     // RANGE QUERY
     rangeValue = ~space ((alnum | "/" | "-" | ":" | "+")+ | "*")
-    rangeCond = "[" space* rangeValue spaced<"TO"> rangeValue space* "]"
+    rangeCond = (("[" | "{") space* rangeValue spaced<"TO"> rangeValue space* ("]" | "}"))
+    simpleRangeCond = (">" subquery) | ("<" subquery) | (">=" subquery) | ("<=" subquery)
 
     // REGEX QUERY
     regexCond = "/" (alnum | regexCharacter)+ "/"
 
     // CONDITIONS
-    genericCond = fieldCond | rangeCond | regexCond | detachedCond
+    genericCond = fieldCond | rangeCond | simpleRangeCond | regexCond | detachedCond
     cond = parented<genericCond> | genericCond
 
     simpleNegation = "-" subquery

@@ -21,6 +21,7 @@ let syntaxActionsMap = {
     'fieldCond': flattenFieldCondition,
     'orSpace': flattenOrSpace,
     'rangeCond': flattenRangeCondition,
+    'simpleRangeCond': flattenSimpleRangeCondition,
     'regexCond': flattenRegexCondition,
     '_terminal': terminalAction,
 };
@@ -88,11 +89,22 @@ function flattenFieldCondition(nameNode, _, valueNode) {
 }
 
 
-function flattenRangeCondition(_, __, fromValue, ___, toValue, ____, _____) {
+function flattenRangeCondition(bracketOpen, __, fromValue, ___, toValue, ____, bracketClose) {
     return {
         'type': 'rangeCondition',
         'from': fromValue.sourceString,
+        'from-bracket': bracketOpen.sourceString,
+        'to-bracket': bracketClose.sourceString,
         'to': toValue.sourceString,
+    };
+}
+
+
+function flattenSimpleRangeCondition(operand, value) {
+    return {
+        'type': 'simpleRangeCondition',
+        'operand': operand.sourceString,
+        'value': value.flatten(),
     };
 }
 
@@ -146,6 +158,7 @@ function formatFlatTree(tree, maxWidth, style) {
         'fieldCondition': formatFieldCondition,
         'marking': formatMarking,
         'rangeCondition': formatRangeCondition,
+        'simpleRangeCondition': formatSimpleRangeCondition,
         'regexCondition': formatRegexCondition,
     };
 
@@ -204,9 +217,15 @@ function formatFlatTree(tree, maxWidth, style) {
 
     function formatRangeCondition(node) {
         return wrap([
-            '[',
+            node['from-bracket'],
             pp.intersperse(pp.softLine, [node['from'], 'TO', node['to']]),
-            ']']);
+            node['to-bracket'],
+        ]);
+    }
+
+    function formatSimpleRangeCondition(node) {
+        let value = formatNodeRecursively(node['value']);
+        return [node['operand'], value];
     }
 
     function formatNodeRecursively(node) {
@@ -266,7 +285,7 @@ prism.languages.esquery = {
     'boolean': /\b(?:true|false|null)\b/i,
     'number': /\b0x[\da-f]+\b|\b\d+\.?\d*|\B\.\d+\b/i,
     'operator': /[-+\/=%^~]|&&?|\|\|?|!=?|<(?:=>?|<|>)?|>[>=]?|\b(?:AND|OR|TO|NOT|_exists_)\b/i,
-    'punctuation': /[;[\]()`,.]/,
+    'punctuation': /[;[\]{}()`,.]/,
 };
 
 
