@@ -29,8 +29,8 @@ ESQueryGrammar {
     unquotedString = ~reservedWord (escapedESStringCharacter | wildcardCharacter | alnum | "_" | "." | "-" | "’")+
     quotedString = "\"" doubleStringCharacter* "\""
 
-    unquotedFuzzyString = unquotedString "~" alnum+
-    quotedFuzzyString = "\"" doubleStringCharacter* "\"" "~" alnum+
+    unquotedFuzzyString = unquotedString "~" alnum*
+    quotedFuzzyString = "\"" doubleStringCharacter* "\"" "~" alnum*
 
     detachedCond = quotedFuzzyString | unquotedFuzzyString | quotedString | unquotedString
 
